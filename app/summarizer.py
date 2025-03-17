@@ -1,24 +1,10 @@
-import PyPDF2
-import docx
+from .utils import process_pdf, process_docx
 
-def summarize_file(file):
-    """Lee el archivo y devuelve un resumen simulado."""
-    text = ""
-    
-    if file.filename.endswith(".pdf"):
-        reader = PyPDF2.PdfReader(file)
-        for page in reader.pages:
-            text += page.extract_text() + "\n"
-    elif file.filename.endswith(".docx"):
-        doc = docx.Document(file)
-        for para in doc.paragraphs:
-            text += para.text + "\n"
-    elif file.filename.endswith(".txt"):
-        text = file.read().decode("utf-8")
-    elif file.filename.endswith(".csv"):
-        text = file.read().decode("utf-8")
+def summarize_file(file_path):
+    extension = file_path.split('.')[-1]
+    if extension == 'pdf':
+        return process_pdf(file_path)
+    elif extension in ['docx', 'txt', 'csv']:
+        return process_docx(file_path)
     else:
-        return "Formato de archivo no soportado."
-    
-    summary = f"Resumen del documento ({len(text.split())} palabras): {text[:500]}..."
-    return summary
+        return "Tipo de archivo no soportado"

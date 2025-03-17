@@ -1,27 +1,20 @@
 import streamlit as st
 import requests
 
-# URL del backend en Azure
-BACKEND_URL = "https://deepseekbot-a5gbcjg7aee2g8c8.canadacentral-01.azurewebsites.net/"  # Reemplaza con la URL real
-API_KEY = "2Ss0sjP9U6f0ronN6JAlZ4bnEOcAE6njPMZFPqOSUec1reyILr5CJQQJ99BCACYeBjFXJ3w3AAAAACOGOFRS"  # Reemplaza con tu clave de API
+API_URL = "http://localhost:5000"  # Cambia a la URL de tu backend en Azure
 
-st.set_page_config(page_title="ChatBot DeepSeek R-1", layout="wide")
-st.title("🤖 ChatBot DeepSeek R-1")
+st.title("ChatBot DeepSeek R-1")
 
-# Interfaz de chat
-st.subheader("Chat con IA")
-user_input = st.text_input("Escribe tu mensaje:")
+# Input de texto para consultas de chat
+user_input = st.text_input("Escribe tu consulta:")
 
-if st.button("Enviar"):
-    if user_input:
-        headers = {"Authorization": f"Bearer {API_KEY}"}  # Agrega la API Key en los headers
-        response = requests.post(f"{BACKEND_URL}/chat", json={"message": user_input}, headers=headers)
+if user_input:
+    response = requests.post(f"{API_URL}/chat", json={"input": user_input})
+    st.write(response.json().get('response'))
 
-        if response.status_code == 200:
-            try:
-                response_data = response.json()
-                st.text_area("Respuesta:", response_data.get("response", "Error en la respuesta"), height=200)
-            except requests.exceptions.JSONDecodeError:
-                st.error("Error: La respuesta del servidor no es un JSON válido.")
-        else:
-            st.error(f"Error {response.status_code}: {response.text}")  # Muestra el error detallado
+# Subida de archivos
+file = st.file_uploader("Sube tu archivo", type=["pdf", "docx", "txt", "csv"])
+
+if file:
+    response = requests.post(f"{API_URL}/upload", files={"file": file})
+    st.write(response.json().get('summary'))

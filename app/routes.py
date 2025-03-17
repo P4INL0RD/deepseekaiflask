@@ -1,27 +1,23 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask import Blueprint, request, jsonify
+from werkzeug.utils import secure_filename
+import os
+from .summarizer import summarize_file
+from .model import get_chat_response
 
-app = Flask(__name__)
-CORS(app)  # Habilita CORS para evitar problemas de conexión
+app_routes = Blueprint('app_routes', __name__)
 
-@app.route('/health', methods=['GET'])
-def health_check():
-    return jsonify({"status": "API is running"})
-
-@app.route('/chat', methods=['POST'])
+@app_routes.route('/chat', methods=['POST'])
 def chat():
-    data = request.json
-    message = data.get("message", "")
-    return jsonify({"response": f"Has dicho: {message}"})
+    user_input = request.json.get('input')
+    response = get_chat_response(user_input)
+    return jsonify({'response': response})
 
-@app.route('/')
-def home():
-    return jsonify({"message": "Bienvenido a la API"})
-
-@app.route('/favicon.ico')
-def favicon():
-    return '', 204  # Responde sin contenido para evitar el error
-
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+@app_routes.route('/upload', methods=['POST'])
+def upload_file():
+    file = request.files['file']
+    if file:
+        filename = secure_filename(file.filename)
+        file.save(os.path.join('uploads', filename))
+        summary = summarize_file(os.path.join('uploads', filename))
+        return jsonify({'summary': summary})
+    return jsonify({'error': 'No file uploaded'}), 400

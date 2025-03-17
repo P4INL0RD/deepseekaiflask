@@ -1,12 +1,8 @@
+from app import create_app
 import subprocess
-import threading
 
-def run_flask():
-    subprocess.run(["python", "app/routes.py"])
+app = create_app()
 
-def run_streamlit():
-    subprocess.run(["streamlit", "run", "frontend/app.py"])
-
-if __name__ == "__main__":
-    threading.Thread(target=run_flask).start()
-    threading.Thread(target=run_streamlit).start()
+if __name__ == '__main__':
+    subprocess.Popen(['streamlit', 'run', 'frontend/app.py'])
+    app.run(debug=True, use_reloader=False)

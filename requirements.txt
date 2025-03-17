@@ -1,7 +1,5 @@
-flask
-flask-cors
-streamlit
-PyPDF2
-python-docx
-pandas
-deep-translator
+Flask==2.2.3
+requests==2.28.1
+PyPDF2==1.26.0
+python-docx==0.8.11
+streamlit==1.10.0

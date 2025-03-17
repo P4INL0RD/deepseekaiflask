@@ -1,5 +1,4 @@
-def process_chat(user_message):
-    """Procesa la consulta del usuario y genera una respuesta simulada."""
-    # Simulación de respuesta del modelo DeepSeek
-    response = f"Has dicho: {user_message}"
+def get_chat_response(user_input):
+    # Lógica del modelo para procesar la entrada del usuario
+    response = f"Respuesta procesada para: {user_input}"
     return response
