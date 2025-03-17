@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-API_URL = "http://localhost:5000"  # Cambia a la URL de tu backend en Azure
+API_URL = "https://deepseekbot-a5gbcjg7aee2g8c8.canadacentral-01.azurewebsites.net/"  # Cambia a la URL de tu backend en Azure
 
 st.title("ChatBot DeepSeek R-1")
 
