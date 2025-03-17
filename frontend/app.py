@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # Configurar la URL del backend Flask
-BACKEND_URL = "http://localhost:8000"
+BACKEND_URL = "https://deepseekbot-a5gbcjg7aee2g8c8.canadacentral-01.azurewebsites.net/"
 
 st.set_page_config(page_title="ChatBot DeepSeek R-1", layout="wide")
 st.title("🤖 ChatBot DeepSeek R-1")
