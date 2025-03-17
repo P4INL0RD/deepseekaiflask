@@ -14,5 +14,14 @@ def chat():
     message = data.get("message", "")
     return jsonify({"response": f"Has dicho: {message}"})
 
+@app.route('/')
+def home():
+    return jsonify({"message": "Bienvenido a la API"})
+
+@app.route('/favicon.ico')
+def favicon():
+    return '', 204  # Responde sin contenido para evitar el error
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
