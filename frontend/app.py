@@ -4,7 +4,7 @@ import requests
 
 API_URL = "http://localhost:5000"  # Cambia a la URL de tu backend en Azure
 
-st.title("ChatBot DeepSeek R-1")
+st.title("ChatBot DeepSeek R1")
 
 # Input de texto para consultas de chat
 user_input = st.text_input("Escribe tu consulta:")
